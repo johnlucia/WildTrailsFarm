@@ -111,7 +111,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator screenOptions={{ headerShown: false }}>
         <Tab.Screen name="Welcome"  component={WelcomeScreen}  options={{tabBarIcon: homeIcon    }} />
         <Tab.Screen name="Map"      component={MapScreen}      options={{tabBarIcon: mapIcon     }} />
         <Tab.Screen name="Settings" component={SettingsScreen} options={{tabBarIcon: settingsIcon}} />
