@@ -4,6 +4,8 @@ import MapView from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Trails from '../components/Trails';
+import Boundaries from '../components/Boundaries';
+import {boundaries} from '../geodata/boundaries';
 
 
 
@@ -54,6 +56,8 @@ export default function MapScreen() {
       >
         {/* MAP FEATURES GO HERE */}
         <Trails trails={skiTrails} onTapTrail={onTapTrail} activeTrailID={activeTrailID} visible={true} />
+        <Boundaries boundaries={boundaries} onTapBoundary={onTapTrail} activeTrailID={activeTrailID} visible={true} />
+
 
 
       </MapView>
