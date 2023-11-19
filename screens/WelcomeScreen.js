@@ -1,6 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import SponsorRow from '../components/SponsorRow';
+import WelcomeContent from '../components/WelcomeContent';
 
 export default function WelcomeScreen() {
   const [liveTrailData, setLiveTrailData] = useState(null);
@@ -25,17 +28,12 @@ export default function WelcomeScreen() {
         <Text style={styles.titleText}>Wild Trails Farm</Text>
       </View>
       <View style={styles.contentWrap}>
-        <Text>{liveTrailData.sponsors[0].logo_url}</Text>
-        <Text>{liveTrailData.sponsors[0].link_url}</Text>
-        <Text>{liveTrailData.welcome_content[0].body}</Text>
-        <Text>{liveTrailData.welcome_content[1].body}</Text>
-        <Text>{liveTrailData.welcome_content[2].body}</Text>
-        <Text>{liveTrailData.welcome_content[3].body}</Text>
-        {/* <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
-          <SponsorRow sponsors={useSelector(state => state.dynamicContent.sponsors).slice(0, 2)} />
-          <SponsorRow sponsors={useSelector(state => state.dynamicContent.sponsors).slice(2, 4)} />
-          <WelcomeContent content={useSelector(state => state.dynamicContent.welcome_content)} />
-        </ScrollView> */}
+        {/* <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} > */}
+        <ScrollView>
+          <SponsorRow sponsors={liveTrailData.sponsors.slice(0, 2)} />
+          <SponsorRow sponsors={liveTrailData.sponsors.slice(2, 4)} />
+          <WelcomeContent content={liveTrailData.welcome_content} />
+        </ScrollView>
       </View>
     </View>
     ) : (
