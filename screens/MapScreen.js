@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Trails from '../components/Trails';
 import Boundaries from '../components/Boundaries';
+import Shelters from '../components/Shelters';
 import TrailInfo from '../components/TrailInfo';
 import {boundaries} from '../geodata/boundaries';
 
@@ -20,6 +21,7 @@ export default function MapScreen() {
   const [infoPanelNeedsReset, setInfoPanelNeedsReset] = useState(false);
   const [activePoint, setActivePoint] = useState(null);
   const [pointInfoVisible, setPointInfoVisible] = useState(false);
+  const [shelterList, setShelterList] = useState(null);
 
   // TRAILS ************************************
   const onTapTrail = (trail) => {
@@ -61,6 +63,28 @@ export default function MapScreen() {
     setInfoPanelNeedsReset(true);
   }
 
+  // POINTS ************************************
+  const onTapPoint = (point) => {
+    setPointInfoVisible(true);
+    setActivePoint(point);
+  }
+
+  // SHELTERS ************************************
+  const shelterData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('live-trail-data');
+      const shelterArray = JSON.parse(jsonValue).shelters;
+      setShelterList(shelterArray);
+      return shelterArray;
+    } catch (e) {
+      // error fetching data
+    }
+  };
+
+  useEffect(() => {
+    shelterData();
+  }, []);
+
   return (
     <View>
       <MapView 
@@ -79,6 +103,7 @@ export default function MapScreen() {
         {/* MAP FEATURES GO HERE */}
         <Trails trails={skiTrails} onTapTrail={onTapTrail} activeTrailID={activeTrailID} visible={true} />
         <Boundaries boundaries={boundaries} onTapBoundary={onTapTrail} activeTrailID={activeTrailID} visible={true} />
+        <Shelters shelters={shelterList} onTapPoint={onTapPoint} visible={true} />
 
 
 
