@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Trails from '../components/Trails';
 import Boundaries from '../components/Boundaries';
+import TrailInfo from '../components/TrailInfo';
 import {boundaries} from '../geodata/boundaries';
 
 
@@ -12,12 +13,15 @@ import {boundaries} from '../geodata/boundaries';
 
 export default function MapScreen() {
 
-  // liveTrailData is an array of trail objects
   const [skiTrails, setSkiTrails] = useState(null);
   const [activeTrailID, setActiveTrailID] = useState(0);
   const [activeTrail, setActiveTrail] = useState(null);
   const [trailInfoVisible, setTrailInfoVisible] = useState(false);
+  const [infoPanelNeedsReset, setInfoPanelNeedsReset] = useState(false);
+  const [activePoint, setActivePoint] = useState(null);
+  const [pointInfoVisible, setPointInfoVisible] = useState(false);
 
+  // TRAILS ************************************
   const onTapTrail = (trail) => {
     setActiveTrailID(trail.uid);
     setActiveTrail(trail);
@@ -38,6 +42,24 @@ export default function MapScreen() {
   useEffect(() => {
     skiTrailData();
   }, []);
+
+  // INFO PANEL ************************************
+  useEffect(() => {
+    if(infoPanelNeedsReset) {
+      setActivePoint(null);
+      setActiveTrailID(0);
+      setActiveTrail(null);
+
+      setTrailInfoVisible(false);
+      setPointInfoVisible(false);
+
+      setInfoPanelNeedsReset(false);
+    }
+  });
+
+  const resetInfoPanel = () => {
+    setInfoPanelNeedsReset(true);
+  }
 
   return (
     <View>
@@ -61,6 +83,8 @@ export default function MapScreen() {
 
 
       </MapView>
+      <View></View>
+      <TrailInfo trail={activeTrail} visible={trailInfoVisible} onCloseTrailInfo={resetInfoPanel} />
     </View>
   );
 }
