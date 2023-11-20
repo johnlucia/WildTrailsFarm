@@ -5,9 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Trails from '../components/Trails';
 import Boundaries from '../components/Boundaries';
+import {boundaries} from '../geodata/boundaries';
 import Shelters from '../components/Shelters';
 import TrailInfo from '../components/TrailInfo';
-import {boundaries} from '../geodata/boundaries';
+import PointInfo from '../components/PointInfo';
+
 
 
 
@@ -81,6 +83,7 @@ export default function MapScreen() {
     }
   };
 
+
   useEffect(() => {
     shelterData();
   }, []);
@@ -110,6 +113,7 @@ export default function MapScreen() {
       </MapView>
       <View></View>
       <TrailInfo trail={activeTrail} visible={trailInfoVisible} onCloseTrailInfo={resetInfoPanel} />
+      <PointInfo point={activePoint} visible={pointInfoVisible} onClosePointInfo={resetInfoPanel} />
     </View>
   );
 }
