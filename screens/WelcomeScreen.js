@@ -9,7 +9,6 @@ export default function WelcomeScreen() {
   const [liveTrailData, setLiveTrailData] = useState(null);
   const trailData = async () => {
     try {
-      console.log("********** Fetching Trail Data ***************")
       const jsonValue = await AsyncStorage.getItem('live-trail-data');
       setLiveTrailData(JSON.parse(jsonValue));
       return jsonValue != null ? JSON.parse(jsonValue) : null;

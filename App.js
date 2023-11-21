@@ -16,7 +16,7 @@ const mapIcon      = () => <Ionicons name="md-map"        size={32} color="black
 const settingsIcon = () => <Ionicons name="md-settings"   size={32} color="black" />
 
 export default function App() {
-  const [liveTrailData, setLiveTrailData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const defaultTrailData = {
     'loaded': false,
@@ -80,28 +80,15 @@ export default function App() {
     'points_of_interest': []
   };
 
-  const storeData = async (value) => {
-    try {
-      console.log("********** Setting Trail Data ***************")
-      console.log(value);
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('live-trail-data', jsonValue);
-    } catch (e) {
-      console.log("************************ error storing data ******************************")
-    }
-  };
-
   const fetchLiveTrailData = async () => {
     try {
       const response = await fetch('https://wild-trails-farm.herokuapp.com/api/v1/welcome_data.json');
       const json = await response.json();
-      setLiveTrailData(json);
-      storeData(json);
+      await AsyncStorage.setItem('live-trail-data', JSON.stringify(json));
     } catch (error) {
-      console.log('*********** API call error **********');
-      storeData(defaultTrailData);
+      await AsyncStorage.setItem('live-trail-data', JSON.stringify(defaultTrailData));
     } finally {
-      console.log('*********** done with dynamic content load **********');
+      setIsLoading(false);
     }
   }
 
@@ -110,13 +97,17 @@ export default function App() {
   }, []);
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="Welcome"  component={WelcomeScreen}  options={{tabBarIcon: homeIcon    }} />
-        <Tab.Screen name="Map"      component={MapScreen}      options={{tabBarIcon: mapIcon     }} />
-        <Tab.Screen name="Settings" component={SettingsScreen} options={{tabBarIcon: settingsIcon}} />
-      </Tab.Navigator>
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    isLoading? (
+      <Text>Loading</Text>
+    ) : (
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
+          <Tab.Screen name="Welcome"  component={WelcomeScreen}  options={{tabBarIcon: homeIcon    }} />
+          <Tab.Screen name="Map"      component={MapScreen}      options={{tabBarIcon: mapIcon     }} />
+          <Tab.Screen name="Settings" component={SettingsScreen} options={{tabBarIcon: settingsIcon}} />
+        </Tab.Navigator>
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    )
   );
 }
