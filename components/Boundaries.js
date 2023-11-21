@@ -4,9 +4,9 @@ import { Polyline } from 'react-native-maps';
 // const Boundaries = props => {
 export default function Boundaries({boundaries, onTapBoundary, activeTrailID, visible}) {
   if(!visible) {return(null);}
-  let boundaryLines
+
   const boundaryPolyLines = () => {
-    boundaryLines = boundaries.map((boundary) => {
+    let boundaryLines = boundaries.map((boundary) => {
       let boundaryActive = activeTrailID === boundary.id
       return( <Polyline 
                 key={boundary.id}

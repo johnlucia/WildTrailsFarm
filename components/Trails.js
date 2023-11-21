@@ -3,7 +3,7 @@ import { Polyline } from 'react-native-maps';
 
 export default function Trails({trails, onTapTrail, dashPattern, activeTrailID, visible}) {
   if(!visible) {return(null);}
-  if(!trails) {return(null);}
+
   let trailLines
   const trailPolyLines = () => {
     trailLines = trails.map((trail) => {

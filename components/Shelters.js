@@ -6,7 +6,6 @@ import { Marker } from 'react-native-maps';
 
 export default function Shelters({shelters, onTapPoint, visible}) {
   if(!visible) { return(null) }
-  if(!shelters) { return(null) }
 
   // flagrant duplication
   const scrubbedCoordinates = (coordinates) => {

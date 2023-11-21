@@ -9,6 +9,7 @@ import {boundaries} from '../geodata/boundaries';
 import Shelters from '../components/Shelters';
 import TrailInfo from '../components/TrailInfo';
 import PointInfo from '../components/PointInfo';
+import PointsOfInterest from '../components/PointsOfInterest';
 
 
 
@@ -16,14 +17,15 @@ import PointInfo from '../components/PointInfo';
 
 export default function MapScreen() {
 
-  const [skiTrails, setSkiTrails] = useState(null);
+  const [skiTrails, setSkiTrails] = useState([]);
   const [activeTrailID, setActiveTrailID] = useState(0);
   const [activeTrail, setActiveTrail] = useState(null);
   const [trailInfoVisible, setTrailInfoVisible] = useState(false);
   const [infoPanelNeedsReset, setInfoPanelNeedsReset] = useState(false);
   const [activePoint, setActivePoint] = useState(null);
   const [pointInfoVisible, setPointInfoVisible] = useState(false);
-  const [shelterList, setShelterList] = useState(null);
+  const [shelterList, setShelterList] = useState([]);
+  const [poiList, setPoiList] = useState([]);
 
   // TRAILS ************************************
   const onTapTrail = (trail) => {
@@ -83,9 +85,24 @@ export default function MapScreen() {
     }
   };
 
-
   useEffect(() => {
     shelterData();
+  }, []);
+
+  // POI ************************************
+  const pointsOfInterestData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('live-trail-data');
+      const pois = JSON.parse(jsonValue).points_of_interest;
+      setPoiList(pois);
+      return pois;
+    } catch (e) {
+      // error fetching data
+    }
+  };
+
+  useEffect(() => {
+    pointsOfInterestData();
   }, []);
 
   return (
@@ -107,6 +124,8 @@ export default function MapScreen() {
         <Trails trails={skiTrails} onTapTrail={onTapTrail} activeTrailID={activeTrailID} visible={true} />
         <Boundaries boundaries={boundaries} onTapBoundary={onTapTrail} activeTrailID={activeTrailID} visible={true} />
         <Shelters shelters={shelterList} onTapPoint={onTapPoint} visible={true} />
+        <PointsOfInterest pointsOfInterest={poiList} onTapPoint={onTapPoint} visible={true} />
+
 
 
 
