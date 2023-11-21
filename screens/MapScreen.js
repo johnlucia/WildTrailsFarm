@@ -11,13 +11,11 @@ import TrailInfo from '../components/TrailInfo';
 import PointInfo from '../components/PointInfo';
 import PointsOfInterest from '../components/PointsOfInterest';
 
-
-
-
-
 export default function MapScreen() {
 
   const [skiTrails, setSkiTrails] = useState([]);
+  const [ungroomedTrails, setUngroomedTrails] = useState([]);
+  const [snowshoeTrails, setSnowshoeTrails] = useState([]);
   const [activeTrailID, setActiveTrailID] = useState(0);
   const [activeTrail, setActiveTrail] = useState(null);
   const [trailInfoVisible, setTrailInfoVisible] = useState(false);
@@ -47,6 +45,23 @@ export default function MapScreen() {
 
   useEffect(() => {
     skiTrailData();
+  }, []);
+
+  const otherTrailData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('live-trail-data');
+      const ungroomedTrailArray = JSON.parse(jsonValue).ungroomed;
+      const snowshoeTrailArray = JSON.parse(jsonValue).snowshoe;
+      setUngroomedTrails(ungroomedTrailArray);
+      setSnowshoeTrails(snowshoeTrailArray);
+      return trailArray;
+    } catch (e) {
+      // error fetching data
+    }
+  };
+
+  useEffect(() => {
+    otherTrailData();
   }, []);
 
   // INFO PANEL ************************************
@@ -122,6 +137,8 @@ export default function MapScreen() {
       >
         {/* MAP FEATURES GO HERE */}
         <Trails trails={skiTrails} onTapTrail={onTapTrail} activeTrailID={activeTrailID} visible={true} />
+        <Trails trails={ungroomedTrails} onTapTrail={onTapTrail} activeTrailID={activeTrailID} visible={true} dashPattern={[5,8]} />
+        <Trails trails={snowshoeTrails} onTapTrail={onTapTrail} activeTrailID={activeTrailID} visible={true} dashPattern={[5,8]} />
         <Boundaries boundaries={boundaries} onTapBoundary={onTapTrail} activeTrailID={activeTrailID} visible={true} />
         <Shelters shelters={shelterList} onTapPoint={onTapPoint} visible={true} />
         <PointsOfInterest pointsOfInterest={poiList} onTapPoint={onTapPoint} visible={true} />
