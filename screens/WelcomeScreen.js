@@ -7,11 +7,15 @@ import WelcomeContent from '../components/WelcomeContent';
 
 export default function WelcomeScreen() {
   const [liveTrailData, setLiveTrailData] = useState(null);
+  const [sponsors, setSponsors] = useState([]);
+  const [welcomeContent, setWelcomeContent] = useState([]);
   const trailData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('live-trail-data');
       setLiveTrailData(JSON.parse(jsonValue));
-      return jsonValue != null ? JSON.parse(jsonValue) : null;
+      setSponsors(JSON.parse(jsonValue).sponsors);
+      setWelcomeContent(JSON.parse(jsonValue).welcome_content);
+      return(JSON.parse(jsonValue));
     } catch (e) {
       // error fetching data
     }
@@ -29,9 +33,9 @@ export default function WelcomeScreen() {
       <View style={styles.contentWrap}>
         {/* <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} > */}
         <ScrollView>
-          <SponsorRow sponsors={liveTrailData.sponsors.slice(0, 2)} />
-          <SponsorRow sponsors={liveTrailData.sponsors.slice(2, 4)} />
-          <WelcomeContent content={liveTrailData.welcome_content} />
+          <SponsorRow sponsors={sponsors.slice(0, 2)} />
+          <SponsorRow sponsors={sponsors.slice(2, 4)} />
+          <WelcomeContent content={welcomeContent} />
         </ScrollView>
       </View>
     </View>

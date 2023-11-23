@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import MapView from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 import Trails from '../components/Trails';
 import Boundaries from '../components/Boundaries';
@@ -24,6 +25,31 @@ export default function MapScreen() {
   const [pointInfoVisible, setPointInfoVisible] = useState(false);
   const [shelterList, setShelterList] = useState([]);
   const [poiList, setPoiList] = useState([]);
+
+  const [showUngroomed, setShowUngroomed] = useState(true);
+  const [showPointsOfInterest, setShowPointsOfInterest] = useState(true);
+  const [showShelters, setShowShelters] = useState(true);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // When the screen comes into focus...
+      const settingsData = async () => {
+        try {
+          const jsonValue = await AsyncStorage.getItem('user-settings');
+          const settingsJson = JSON.parse(jsonValue);
+          setShowUngroomed(settingsJson.showUngroomed);
+          setShowPointsOfInterest(settingsJson.showPointsOfInterest);
+          setShowShelters(settingsJson.showShelters);
+          return trailArray;
+        } catch (e) {
+          // Error fetching user settings
+        }
+      };
+      settingsData();
+      return () => {
+      };
+    }, [])
+  );
 
   // TRAILS ************************************
   const onTapTrail = (trail) => {
@@ -137,15 +163,11 @@ export default function MapScreen() {
       >
         {/* MAP FEATURES GO HERE */}
         <Trails trails={skiTrails} onTapTrail={onTapTrail} activeTrailID={activeTrailID} visible={true} />
-        <Trails trails={ungroomedTrails} onTapTrail={onTapTrail} activeTrailID={activeTrailID} visible={true} dashPattern={[5,8]} />
+        <Trails trails={ungroomedTrails} onTapTrail={onTapTrail} activeTrailID={activeTrailID} visible={showUngroomed} dashPattern={[5,8]} />
         <Trails trails={snowshoeTrails} onTapTrail={onTapTrail} activeTrailID={activeTrailID} visible={true} dashPattern={[5,8]} />
         <Boundaries boundaries={boundaries} onTapBoundary={onTapTrail} activeTrailID={activeTrailID} visible={true} />
-        <Shelters shelters={shelterList} onTapPoint={onTapPoint} visible={true} />
-        <PointsOfInterest pointsOfInterest={poiList} onTapPoint={onTapPoint} visible={true} />
-
-
-
-
+        <Shelters shelters={shelterList} onTapPoint={onTapPoint} visible={showShelters} />
+        <PointsOfInterest pointsOfInterest={poiList} onTapPoint={onTapPoint} visible={showPointsOfInterest} />
       </MapView>
       <View></View>
       <TrailInfo trail={activeTrail} visible={trailInfoVisible} onCloseTrailInfo={resetInfoPanel} />
