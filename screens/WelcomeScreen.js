@@ -31,7 +31,6 @@ export default function WelcomeScreen() {
         <Text style={styles.titleText}>Wild Trails Farm</Text>
       </View>
       <View style={styles.contentWrap}>
-        {/* <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} > */}
         <ScrollView>
           <SponsorRow sponsors={sponsors.slice(0, 2)} />
           <SponsorRow sponsors={sponsors.slice(2, 4)} />
