@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor: 'rgba(255,255,255, 0.85)',
     width: '100%',
+    maxHeight: '95%',
     padding: 20,
     paddingBottom: 60,
     borderRadius: 10,
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   closeButton: {
     position: 'absolute',
     right: 15,
-    top: 15
+    top: 25
   },
   title: {
     flexDirection: 'row',
