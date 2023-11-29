@@ -15,16 +15,42 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.mindbarrel.wildtrailsfarm",
+      "buildNumber": "0.4.0",
+      "supportsTablet": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This allows us to display your position on the map, and provide you with information regarding nearby trails.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This allows us to display your position on the map, and provide you with information regarding nearby trails.",
+        "NSLocationAlwaysUsageDescription": "This allows us to display your position on the map, and provide you with information regarding nearby trails."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.mindbarrel.wildtrailsfarm",
+      "versionCode": 10,
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCOX_35smG_OrCWgKSqYjjGRXSfrvv0KRU"
+        }
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a68cc2f2-33e3-481f-967c-9eb71e36c377"
+      }
     }
   }
 }
