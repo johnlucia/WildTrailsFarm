@@ -2,7 +2,7 @@
 
 ## Some Useful Commands
 - npx expo start
-- Build ios?
+- eas build --platform ios
 - eas build --platform android
 
 ## Environment Notes

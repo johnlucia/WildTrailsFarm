@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useEffect, useState} from 'react';
+import * as Location from 'expo-location';
 
 import MapScreen from './screens/MapScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
@@ -17,6 +18,16 @@ const settingsIcon = () => <Ionicons name="md-settings"   size={32} color="black
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+    })();
+  }, []);
 
   const defaultTrailData = {
     'loaded': false,
