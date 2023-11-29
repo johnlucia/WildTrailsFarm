@@ -1,31 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import SlidingUpPanel from 'rn-sliding-up-panel';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { Pressable, StyleSheet, Text, View, Modal } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import DoubleDiamond from '../components/DoubleDiamond';
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-// const PointInfo = props => {
 export default function PointInfo({point, visible, onClosePointInfo}) {
-  const [closedIt, setClosedIt] = useState(false);
-
-  useEffect(() => {
-    if(visible && !closedIt) {
-      _panel.show(
-        {toValue: 250}
-      );
-    }
-    if(closedIt) {
-      onClosePointInfo();
-      setClosedIt(false);
-    }
-  });
-
-  const closePanel = () => {
-    _panel.hide();
-    setClosedIt(true);
-  }
+  if(!point) { return null; }
 
   const iconSource = () => {
     let color = point.color || "black";
@@ -67,8 +45,7 @@ export default function PointInfo({point, visible, onClosePointInfo}) {
   if(!point) { return null; }
   
   return (
-    <GestureHandlerRootView>
-    <SlidingUpPanel ref={c => _panel = c} onBottomReached={closePanel} backdropOpacity={0.1} >
+    <Modal animationType="slide" transparent={true} visible={visible} >
       <View style={styles.overlayWrap}>
         <View style={styles.title}>
           {pointIcon()}
@@ -80,23 +57,25 @@ export default function PointInfo({point, visible, onClosePointInfo}) {
           <Text style={styles.infoText}>{point.description}</Text>
         </View>
         <View style={styles.closeButton}>
-          <TouchableWithoutFeedback onPress={closePanel}>
+          <Pressable onPress={onClosePointInfo}>
             <MaterialCommunityIcons name="close-circle"   size={32} color="black" />
-          </TouchableWithoutFeedback>
+          </Pressable>
         </View>
       </View>
-    </SlidingUpPanel>
-    </GestureHandlerRootView>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   overlayWrap: {
     flex:1,
-    backgroundColor: 'rgba(255,255,255, 0.75)',
+    backgroundColor: 'rgba(255,255,255, 0.85)',
     width: '100%',
     padding: 20,
-    borderRadius: 10
+    paddingBottom: 60,
+    borderRadius: 10,
+    position: 'absolute',
+    bottom: 0,
   },
   closeButton: {
     position: 'absolute',

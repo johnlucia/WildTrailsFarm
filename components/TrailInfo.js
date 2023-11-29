@@ -1,31 +1,7 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import SlidingUpPanel from 'rn-sliding-up-panel';
+import { Pressable, StyleSheet, Text, View, Modal } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
  
 export default function TrailInfo({trail, visible, onCloseTrailInfo}) {
-  const [closedIt, setClosedIt] = useState(false);
-
-  useEffect(() => {
-    if(visible && !closedIt) {
-      _panel.show(
-        {toValue: 250}
-      );
-    }
-
-    if(closedIt) {
-      onCloseTrailInfo();
-      setClosedIt(false);
-    }
-  });
-
-  const closePanel = () => {
-    _panel.hide();
-    setClosedIt(true);
-  }
-
   if(!trail) { return null; }
 
   const difficultyIcon = (level=0) => {
@@ -48,8 +24,7 @@ export default function TrailInfo({trail, visible, onCloseTrailInfo}) {
   }
   
   return (
-    <GestureHandlerRootView>
-    <SlidingUpPanel ref={c => _panel = c} onBottomReached={closePanel} backdropOpacity={0.1} >
+    <Modal animationType="slide" transparent={true} visible={visible} >
       <View style={styles.overlayWrap}>
         <View style={styles.title}>
           {difficultyIcon(trail.level)}
@@ -62,23 +37,25 @@ export default function TrailInfo({trail, visible, onCloseTrailInfo}) {
           <Text style={styles.infoText}>{trail.description}</Text>
         </View>
         <View style={styles.closeButton}>
-          <TouchableWithoutFeedback onPress={closePanel}>
+          <Pressable onPress={onCloseTrailInfo}>
             <MaterialCommunityIcons name="close-circle"   size={32} color="black" />
-          </TouchableWithoutFeedback>
+          </Pressable>
         </View>
       </View>
-    </SlidingUpPanel>
-    </GestureHandlerRootView>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   overlayWrap: {
     flex:1,
-    backgroundColor: 'rgba(255,255,255, 0.75)',
+    backgroundColor: 'rgba(255,255,255, 0.85)',
     width: '100%',
     padding: 20,
-    borderRadius: 10
+    paddingBottom: 60,
+    borderRadius: 10,
+    position: 'absolute',
+    bottom: 0,
   },
   closeButton: {
     position: 'absolute',

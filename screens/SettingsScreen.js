@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function SettingsScreen() {
+  const [settingsLoaded, setSettingsLoaded] = useState(false);
   const [showUngroomed, setShowUngroomed] = useState(true);
   const [showPointsOfInterest, setShowPointsOfInterest] = useState(true);
   const [showShelters, setShowShelters] = useState(true);
@@ -17,8 +18,26 @@ export default function SettingsScreen() {
     }
   };
 
+  const loadViewSettings = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('user-settings');
+      const settingsJson = JSON.parse(jsonValue);
+      setSettingsLoaded(true);
+      setShowUngroomed(settingsJson.showUngroomed);
+      setShowPointsOfInterest(settingsJson.showPointsOfInterest);
+      setShowShelters(settingsJson.showShelters);
+      return true;
+    } catch (e) {
+      // Error fetching user settings
+    }
+  };
+
   useEffect(() => {
-    updateViewSettings();
+    if(settingsLoaded) {
+      updateViewSettings();
+    } else {
+      loadViewSettings();
+    }
   }, [showUngroomed, showPointsOfInterest, showShelters]);
 
   return (
