@@ -1,9 +1,9 @@
 # Wild Trails Farm
 
 ## Some Useful Commands
-- npx expo start
-- eas build --platform ios
-- eas build --platform android
+- `npx expo start`
+- `eas build --platform ios`
+- `eas build --platform android`
 
 ## Environment Notes
 Use Java 11
