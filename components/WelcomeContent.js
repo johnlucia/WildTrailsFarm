@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import { Linking } from 'expo';
+import * as Linking from 'expo-linking';
 
 export default function WelcomeContent({content}) {
   const headerMarkup = (item) => {

@@ -20,7 +20,6 @@ export default function WelcomeScreen() {
       // error fetching data
     }
   };
-
   useEffect(() => {
     trailData();
   }, []);
@@ -42,7 +41,8 @@ export default function WelcomeScreen() {
       <View style={styles.container}>
         <Text style={styles.titleText}>Loading</Text>
       </View>
-    ));
+    )
+  );
     
 }
 

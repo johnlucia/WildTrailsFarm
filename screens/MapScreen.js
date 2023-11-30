@@ -40,7 +40,7 @@ export default function MapScreen() {
           setShowUngroomed(settingsJson.showUngroomed);
           setShowPointsOfInterest(settingsJson.showPointsOfInterest);
           setShowShelters(settingsJson.showShelters);
-          return trailArray;
+          return true;
         } catch (e) {
           // Error fetching user settings
         }
@@ -80,7 +80,7 @@ export default function MapScreen() {
       const snowshoeTrailArray = JSON.parse(jsonValue).snowshoe;
       setUngroomedTrails(ungroomedTrailArray);
       setSnowshoeTrails(snowshoeTrailArray);
-      return trailArray;
+      return true;
     } catch (e) {
       // error fetching data
     }

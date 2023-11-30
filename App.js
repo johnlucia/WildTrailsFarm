@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -117,7 +116,6 @@ export default function App() {
           <Tab.Screen name="Map"      component={MapScreen}      options={{tabBarIcon: mapIcon     }} />
           <Tab.Screen name="Settings" component={SettingsScreen} options={{tabBarIcon: settingsIcon}} />
         </Tab.Navigator>
-        <StatusBar style="auto" />
       </NavigationContainer>
     )
   );

@@ -2,7 +2,7 @@
   "expo": {
     "name": "WildTrailsFarm",
     "slug": "WildTrailsFarm",
-    "version": "1.0.2",
+    "version": "1.0.11",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -16,7 +16,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.mindbarrel.wildtrailsfarm",
-      "buildNumber": "1.0.2",
+      "buildNumber": "1.0.11",
       "supportsTablet": true,
       "config": {
         "usesNonExemptEncryption": false
@@ -33,7 +33,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.mindbarrel.wildtrailsfarm",
-      "versionCode": 11,
+      "versionCode": 13,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION"
